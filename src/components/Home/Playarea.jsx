@@ -12,6 +12,7 @@ const Playarea = () => {
           return (
             <motion.div
               drag
+              dragElastic={0.2}
               dragConstraints={constraintsRef}
               className="bg-[#0E101D] text-white w-fit h-fit font-outfit px-5 py-3 rounded-full hover:cursor-pointer"
             >

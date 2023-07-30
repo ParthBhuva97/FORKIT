@@ -12,7 +12,8 @@ export default {
         header : ['Alfa Slab One', 'cursive']
       },
       boxShadow:{
-        '3xl' : '0px 0px 100px #72BFD5'
+        '3xl' : '0px 0px 100px #72BFD5',
+        'divShadow' : '1px 1px 10px white',
       },
       blur:{
         '3xl' : '85px'
