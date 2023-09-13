@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BiMenu } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import axios from "axios";
+import {NavLink} from "react-router-dom";
 
 // import github from "github";
 
@@ -13,14 +14,14 @@ const Navbar = () => {
 
   async function handleLogin() {
     window.location.assign(
-      `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=repo`
+      `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=repo%20user`
     );
   }
 
   const [expanded, setExpanded] = useState(false);
   return (
     <nav className="flex items-center justify-between py-6 bg-transparent">
-      <div className="px-12">
+      <NavLink className="px-12" to="/">
         <img
           className="mix-blend-lighten"
           src="/FORKIT.png"
@@ -28,9 +29,9 @@ const Navbar = () => {
           height={100}
           width={100}
         />
-      </div>
+      </NavLink>
       <div className="hidden md:flex justify-around items-center font-outfit text-white">
-        <div className="px-5 lg:px-12">Projects</div>
+        <NavLink className="px-5 lg:px-12" to="/marketplace">Marketplace</NavLink>
         <div className="px-5 lg:px-12">Pricing</div>
         <div className="px-5 lg:px-12">About</div>
         <div className="px-5 lg:px-12">
@@ -59,7 +60,7 @@ const Navbar = () => {
           expanded ? "left-[0px]" : "left-[-450px]"
         }`}
       >
-        <div className="py-5">Projects</div>
+        <div className="py-5">Marketplace</div>
         <div className="py-5">Pricing</div>
         <div className="py-5">About</div>
         <div className="py-5">
