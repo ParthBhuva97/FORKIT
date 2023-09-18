@@ -7,7 +7,7 @@ import Projectcard from './Projectcard';
 const Marketplace = () => {
   const [projects,setProjects] = useState([]);
   useEffect(()=>{
-    axios.get('http://localhost:3000/projects/getProjects').then((response)=>{
+    axios.get('http://localhost:3000/projects/getProjects?status=approved').then((response)=>{
       // console.log(response.data);
       setProjects([...response.data]);
     })
@@ -16,15 +16,10 @@ const Marketplace = () => {
   return (
     <div className="w-full bg-black">
       <Navbar />
-      <div className="w-full h-500 bg-[#dddbe7] border rounded-t-xl">
+      <div className="w-full h-[80vh]  bg-white border rounded-t-xl">
         <div className="relative top-0  w-full">
-          <div className="sticky flex items-center justify-center flex-col py-10">
-            <h1 className="text-[40px] ">
-              Get the{" "}
-              <span className="bg-[#9C9FE1] px-5 font-header">Right</span>{" "}
-              Projects
-            </h1>
-            <div className="flex items-center w-full py-5 justify-center gap-2 bg-[#d0d4e7] mt-5">
+          <div className="sticky flex items-start justify-start flex-col py-5">
+            <div className="flex items-center w-full py-5 justify-center gap-2">
               <div className="w-[50%] flex items-center justify-center">
                 <input
                   className="w-[70%] p-3 rounded-l-3xl border border-black"
@@ -65,10 +60,13 @@ const Marketplace = () => {
                 </div>
               </div>
             </div>
+            <h1 className="text-3xl font-bold text-indigo-500 underline p-5">
+              Projects:
+            </h1>
           </div>
-          <div className="w-full flex items-center justify-center">
-            <div className=" gap-5">
-              {projects.map((project,index)=>{
+          <div className="w-full flex items-start justify-start px-5 ">
+            <div className="w-full grid grid-cols-3 gap-5 ">
+              {projects.map((project, index) => {
                 return <Projectcard project={project} />;
               })}
             </div>
