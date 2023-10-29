@@ -1,140 +1,110 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { BsUpload } from "react-icons/bs";
-import { GrHistory, GrStatusUnknown } from "react-icons/gr";
-import { BiLogOutCircle, BiSolidDashboard } from "react-icons/bi";
-import { FaFolder, FaMoneyCheck, FaUsers } from "react-icons/fa";
-import Review from "./Review";
-import History from "./History";
-import Users from "./Users";
+import React from 'react'
+import ReactEcharts from "echarts-for-react";
 
 const AdminDash = () => {
-  const navigate = useNavigate();
-  const [page, setPage] = useState("dashboard");
 
-    useEffect(() => {
-      if (localStorage.getItem("isAdmin") === null || localStorage.getItem("isAdmin") === undefined){
-        navigate("/");
-      }
-    }, []);
+   const barOption = {
+     legend: {},
+     tooltip: {},
+     dataset: {
+       source: [
+         ["Language", "JS", "Python", "C#"],
+         ["Approved", 43, 85, 93],
+         ["Pending", 83, 73, 55],
+         ["Rejected", 86, 65, 82],
+       ],
+     },
+     xAxis: { type: "category" },
+     yAxis: {},
+     // Declare several bar series, each will be mapped
+     // to a column of dataset.source by default.
+     series: [{ type: "bar" }, { type: "bar" }, { type: "bar" }],
+   };
 
-  function changeTab(index) {
-    setPage(index);
-  }
-
-  function handleLogout() {
-    localStorage.removeItem("accessToken");
-    navigate("/");
-  }
-
+    const pieOption = {
+      tooltip: {
+        trigger: "item",
+      },
+      legend: {
+        top: "5%",
+        left: "center",
+      },
+      series: [
+        {
+          name: "Projects Data",
+          type: "pie",
+          radius: ["30%", "70%"],
+          avoidLabelOverlap: false,
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: "#fff",
+            borderWidth: 2,
+          },
+          label: {
+            show: false,
+            position: "center",
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: 40,
+              fontWeight: "bold",
+            },
+          },
+          labelLine: {
+            show: false,
+          },
+          data: [
+            { value: 200, name: "Approved" },
+            { value: 50, name: "Rejected" },
+            { value: 100, name: "Pending" },
+          ],
+        },
+      ],
+    };
   return (
-    <div className="w-full h-screen grid grid-cols-5 divide-x-2 divide-indigo-500">
-      <div className="col-span-1 grid grid-rows-5 gap-2">
-        {/* Left Section   */}
-        <div
-          className="row-span-1 flex items-center justify-center flex-col cursor-pointer"
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          <div className="flex flex-col items-center justify-center py-5">
-            <h1 className="font-bold text-3xl">FORKIT</h1>
-            <p className="uppercase font-bold text-sm">
-              Project Monetization Platform
-            </p>
-          </div>
-          <hr className="w-[80%]" />
+    <div className="w-full flex flex-col justify-start items-start">
+      <h1 className="font-bold drop-shadow-md text-indigo-500 text-xl">
+        Dashboard
+      </h1>
+      <div className="w-full grid grid-cols-3 gap-5 mt-5">
+        {/* Card 1 */}
+        <div className="w-full flex flex-col gap-5 items-center justify-center rounded-lg shadow-md p-5 border border-black">
+          <h1 className="font-bold drop-shadow-md text-indigo-500 text-lg">
+            Total Projects
+          </h1>
+          <h1 className="font-bold drop-shadow-md text-black text-3xl">350</h1>
         </div>
-        <div className="row-span-3 flex flex-col justify-start gap-5 items-start p-5">
-          <div
-            className={`w-full flex px-5 py-2 shadow-md items-center gap-5 font-semibold cursor-pointer ${
-              page === "dashboard"
-                ? "bg-blue-400 text-white shadow-md"
-                : "hover:outline hover:outline-2 outline-blue-400"
-            } rounded-lg`}
-            onClick={() => {
-              changeTab("dashboard");
-            }}
-          >
-            <BiSolidDashboard />
-            <h1 className="text-center">Dashboard</h1>
-          </div>
-          <div
-            className={`w-full flex px-5 py-2 items-center shadow-md gap-5 font-semibold cursor-pointer ${
-              page === "review"
-                ? "bg-blue-400 text-white shadow-md"
-                : "hover:outline hover:outline-2 outline-blue-400"
-            } rounded-lg`}
-            onClick={() => {
-              changeTab("review");
-            }}
-          >
-            <FaFolder />
-            <h1 className="text-center">Review Projects</h1>
-          </div>
-          <div
-            className={`w-full flex px-5 py-2 items-center shadow-md gap-5 font-semibold cursor-pointer ${
-              page === "history"
-                ? "bg-blue-400 text-white shadow-md"
-                : "hover:outline hover:outline-2 outline-blue-400"
-            } rounded-lg`}
-            onClick={() => {
-              changeTab("history");
-            }}
-          >
-            <GrHistory />
-            <h1 className="text-center">History</h1>
-          </div>
-          <div
-            className={`w-full flex px-5 py-2 items-center shadow-md gap-5 font-semibold cursor-pointer ${
-              page === "users"
-                ? "bg-blue-400 text-white shadow-md"
-                : "hover:outline hover:outline-2 outline-blue-400"
-            } rounded-lg`}
-            onClick={() => {
-              changeTab("users");
-            }}
-          >
-            <FaUsers />
-            <h1 className="text-center">Users</h1>
-          </div>
-          <div
-            className={`w-full flex px-5 py-2 items-center shadow-md gap-5 font-semibold cursor-pointer ${
-              page === "billing"
-                ? "bg-blue-400 text-white shadow-md"
-                : "hover:outline hover:outline-2 outline-blue-400"
-            } rounded-lg`}
-            onClick={() => {
-              changeTab("billing");
-            }}
-          >
-            <FaMoneyCheck />
-            <h1 className="text-center">Billing Info</h1>
-          </div>
+        {/* Card 2 */}
+        <div className="w-full flex flex-col gap-5 items-center justify-center rounded-lg shadow-md p-5 border border-black">
+          <h1 className="font-bold drop-shadow-md text-indigo-500 text-lg">
+            Approved Projects
+          </h1>
+          <h1 className="font-bold drop-shadow-md text-black text-3xl">200</h1>
         </div>
+        {/* Card 3 */}
+        <div className="w-full flex flex-col gap-5 items-center justify-center rounded-lg shadow-md p-5 border border-black">
+          <h1 className="font-bold drop-shadow-md text-indigo-500 text-lg">
+            Pending Projects
+          </h1>
+          <h1 className="font-bold drop-shadow-md text-black text-3xl">100</h1>
+        </div>
+        {/* Card ends Here */}
+      </div>
 
-        <div className="row-span-1 px-5 flex justify-start items-center">
-          <div
-            className="flex py-2 px-5 items-center gap-5 font-bold text-red-700 cursor-pointer rounded-lg  hover:bg-red-700 hover:shadow-md hover:text-white duration-300"
-            onClick={() => {
-              handleLogout();
-            }}
-          >
-            <BiLogOutCircle />
-            <h1 className="text-center drop-shadow-lg">Logout</h1>
-          </div>
+      {/* Charts Section */}
+      <div className="w-full p-5 grid grid-cols-5 gap-3 mt-5">
+        <div className="col-span-3 rounded-lg shadow-md hover:shadow-xl duration-300 p-2">
+          <ReactEcharts option={barOption} className="w-full" />
+        </div>
+        <div className="col-span-2 rounded-lg shadow-md hover:shadow-xl duration-300 p-2">
+          <ReactEcharts option={pieOption} className="w-full" />
         </div>
       </div>
-      <div className="col-span-4 p-5 overflow-y-scroll">
-        {/* Right Section */}
-        {page === "review" ? <Review /> : (
-            page === "history" ? <History/> : (
-              page === "users" ? <Users/> : ""
-            )
-        )}
-      </div>
+
+      {/* Charts Section End */}
     </div>
   );
-};
+}
 
-export default AdminDash;
+export default AdminDash

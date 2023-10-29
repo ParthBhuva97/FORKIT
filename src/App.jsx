@@ -8,7 +8,7 @@ import Home from "./components/Home/Home";
 import Test from "./components/Home/Test";
 import Dashboard from "./components/Profile/Dashboard";
 import Marketplace from "./components/Marketplace/Marketplace";
-import AdminDash from "./components/Admin/AdminDash";
+import AdminHome from "./components/Admin/AdminHome";
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
         <Route exact path="/" element={<Home />}></Route>
         <Route exact path="/profile" element={<Dashboard />}></Route>
         <Route exact path="/marketplace" element={<Marketplace />}></Route>
-        <Route exact path="/admin" element={<AdminDash />}></Route>
+        <Route exact path="/admin" element={<AdminHome />}></Route>
       </Routes>
     </BrowserRouter>
   );
