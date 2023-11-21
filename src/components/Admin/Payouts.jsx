@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const Users = () => {
+const Payouts = () => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:3000/users/getAllUsers").then((response) => {
+    axios.get("http://localhost:3000/users/getPayouts").then((response) => {
       console.log(response.data);
       setUsers(response.data);
     });
@@ -29,10 +29,10 @@ const Users = () => {
                         User Name
                       </th>
                       <th scope="col" class="px-6 py-4">
-                        User ID
+                        Email
                       </th>
                       <th scope="col" class="px-6 py-4">
-                        Email
+                        Amount
                       </th>
                       <th scope="col" class="px-6 py-4">
                         UPI ID
@@ -40,26 +40,31 @@ const Users = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {users.map((user,index)=>{
-                        return (
-                          <tr class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
-                            <td class="whitespace-nowrap px-6 py-4 font-medium">
-                              {index + 1}
-                            </td>
-                            <td class="whitespace-nowrap px-6 py-4">
-                              {user.user_name}
-                            </td>
-                            <td class="whitespace-nowrap px-6 py-4">
-                              {user.user_id}
-                            </td>
-                            <td class="whitespace-nowrap px-6 py-4">
-                              {user.email}
-                            </td>
-                            <td class="whitespace-nowrap px-6 py-4">
-                              {user.upi_id}
-                            </td>
-                          </tr>
-                        );
+                    {users.map((user, index) => {
+                      return (
+                        <tr class="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
+                          <td class="whitespace-nowrap px-6 py-4 font-medium">
+                            {index + 1}
+                          </td>
+                          <td class="whitespace-nowrap px-6 py-4">
+                            {user.user_name}
+                          </td>
+                          <td class="whitespace-nowrap px-6 py-4">
+                            {user.email}
+                          </td>
+                          <td class="whitespace-nowrap px-6 py-4">
+                            {user.total_approved_amount} &#8377;
+                          </td>
+                          <td class="whitespace-nowrap px-6 py-4">
+                            {user.upi_id}
+                          </td>
+                          <td class="whitespace-nowrap px-6 py-4">
+                            <div className="flex items-center justify-center bg-blue-500 text-white rounded-lg shadow-md py-2 px-3 cursor-pointer">
+                              Pay Now
+                            </div>
+                          </td>
+                        </tr>
+                      );
                     })}
                   </tbody>
                 </table>
@@ -72,4 +77,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Payouts;

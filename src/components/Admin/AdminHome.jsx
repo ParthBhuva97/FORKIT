@@ -6,8 +6,8 @@ import { BiLogOutCircle, BiSolidDashboard } from "react-icons/bi";
 import { FaFolder, FaMoneyCheck, FaUsers } from "react-icons/fa";
 import Review from "./Review";
 import History from "./History";
-import Users from "./Users";
 import AdminDash from "./AdminDash";
+import Payouts from "./Payouts";
 
 const AdminHome = () => {
   const navigate = useNavigate();
@@ -91,16 +91,16 @@ const AdminHome = () => {
           </div>
           <div
             className={`w-full flex px-5 py-2 items-center shadow-md gap-5 font-semibold cursor-pointer ${
-              page === "users"
+              page === "Payouts"
                 ? "bg-blue-400 text-white shadow-md"
                 : "hover:outline hover:outline-2 outline-blue-400"
             } rounded-lg`}
             onClick={() => {
-              changeTab("users");
+              changeTab("payouts");
             }}
           >
             <FaUsers />
-            <h1 className="text-center">Users</h1>
+            <h1 className="text-center">Payouts</h1>
           </div>
           <div
             className={`w-full flex px-5 py-2 items-center shadow-md gap-5 font-semibold cursor-pointer ${
@@ -137,8 +137,8 @@ const AdminHome = () => {
           <Review />
         ) : page === "history" ? (
           <History />
-        ) : page === "users" ? (
-          <Users />
+        ) : page === "payouts" ? (
+          <Payouts />
         ) : (
           ""
         )}

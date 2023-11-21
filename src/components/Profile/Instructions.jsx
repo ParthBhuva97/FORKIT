@@ -1,32 +1,36 @@
-import React, { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 
-const Instructions = ({userData}) => {
+const Instructions = ({ userData }) => {
   const emailRef = useRef();
   const upiRef = useRef();
   const [showModal, setShowModal] = useState(false);
 
+  useEffect(() => {
+    emailRef.current.value =
+      localStorage.getItem("email") !== "null"
+        ? localStorage.getItem("email")
+        : "";
+    upiRef.current.value =
+      localStorage.getItem("upi_id") !== "null"
+        ? localStorage.getItem("upi_id")
+        : "";
+  }, []);
 
-  useEffect(()=>{
-    emailRef.current.value = localStorage.getItem("email") !== "null"
-      ? localStorage.getItem("email")
-      : "";
-      upiRef.current.value =
-        localStorage.getItem("upi_id") !== "null"
-          ? localStorage.getItem("upi_id")
-          : "";
-  },[])
-
-  function handleUpdate(){
-    const data = {...userData, email:emailRef.current.value, upi_id:upiRef.current.value};
+  function handleUpdate() {
+    const data = {
+      ...userData,
+      email: emailRef.current.value,
+      upi_id: upiRef.current.value,
+    };
     console.log(data);
-    // axios
-    //   .post("http://localhost:3000/users/updateUser", data)
-    //   .then((response) => {
-    //     console.log(response.data);  
-    //   });
-      localStorage.setItem("email", emailRef.current.value);
-      localStorage.setItem("upi_id", upiRef.current.value);
+    axios
+      .post("http://localhost:3000/users/updateUser", data)
+      .then((response) => {
+        console.log(response.data);
+      });
+    localStorage.setItem("email", emailRef.current.value);
+    localStorage.setItem("upi_id", upiRef.current.value);
   }
 
   return (
@@ -37,18 +41,25 @@ const Instructions = ({userData}) => {
             Complete your Profile
           </h1>
           <form className="w-full flex items-start justify-start gap-5">
-            <input
+            {/* <input
               ref={emailRef}
               type="email"
               placeholder="Email Address"
               className="w-[45%] p-2 rounded-lg focus:outline-none outline outline-1 focus:ring ring-blue-200 ring-offset-2"
+            /> */}
+            <input
+              ref={emailRef}
+              className="w-[45%] flex h-10 rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+              type="email"
+              placeholder="Email Address"
             />
             <input
               ref={upiRef}
+              className="w-[45%] flex h-10 rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
               type="text"
               placeholder="UPI ID"
-              className="w-[45%] p-2 rounded-lg focus:outline-none outline outline-1 focus:ring ring-blue-200 ring-offset-2"
             />
+
           </form>
           <div className={`w-full flex items-end justify-end py-2`}>
             <button
@@ -112,6 +123,6 @@ const Instructions = ({userData}) => {
       ) : null}
     </>
   );
-}
+};
 
-export default Instructions
+export default Instructions;
