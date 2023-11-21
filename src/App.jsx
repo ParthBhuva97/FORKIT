@@ -9,6 +9,7 @@ import Test from "./components/Home/Test";
 import Dashboard from "./components/Profile/Dashboard";
 import Marketplace from "./components/Marketplace/Marketplace";
 import AdminHome from "./components/Admin/AdminHome";
+import Overview from "./components/Marketplace/Overview";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route exact path="/" element={<Home />}></Route>
         <Route exact path="/profile" element={<Dashboard />}></Route>
         <Route exact path="/marketplace" element={<Marketplace />}></Route>
+        <Route exact path="/overview" element={<Overview />}></Route>
         <Route exact path="/admin" element={<AdminHome />}></Route>
       </Routes>
     </BrowserRouter>
