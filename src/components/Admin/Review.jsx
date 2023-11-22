@@ -5,6 +5,7 @@ import { BsGithub } from "react-icons/bs";
 import { FaUserAlt } from "react-icons/fa";
 import { GrClose } from "react-icons/gr";
 import { MdDone } from "react-icons/md";
+import Paginate from "./Paginate";
 
 const Review = () => {
   const amountRef = useRef(null);
@@ -14,6 +15,8 @@ const Review = () => {
   const [approveModel, setApproveModal] = useState(false);
   const [rejectModal, setRejectModal] = useState(false);
   const [projectId, setProjectId] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [projectsPerPage] = useState(6);
 
   useEffect(() => {
     axios
@@ -23,6 +26,30 @@ const Review = () => {
         setProjects(response.data);
       });
   }, [flag]);
+
+  const indexOfLastProject = currentPage * projectsPerPage;
+  const indexOfFirstProject = indexOfLastProject - projectsPerPage;
+  const currentProjects = projects.slice(
+    indexOfFirstProject,
+    indexOfLastProject
+  );
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const previousPage = () => {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const nextPage = () => {
+    if (currentPage !== Math.ceil(projects.length / projectsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
 
   function handleApprove() {
     axios
@@ -48,13 +75,13 @@ const Review = () => {
   }
 
   return (
-    <>
+    <div className="relative h-screen">
       <div className="w-full flex items-start justify-start flex-col gap-5">
         <h1 className="font-bold drop-shadow-md text-indigo-500 text-xl">
           Projects to Review
         </h1>
         <div className="w-full grid grid-cols-2 gap-5  items-center justify-center">
-          {projects.map((project, index) => {
+          {currentProjects.map((project, index) => {
             return (
               <div className="hover:ring hover:outline-0 outline outline-1 ring-blue-200 ring-offset-2 flex items-start flex-col p-5 rounded-lg shadow-md gap-5">
                 <div className="flex flex-col items-start">
@@ -99,6 +126,16 @@ const Review = () => {
             );
           })}
         </div>
+      </div>
+      <div className="w-full absolute flex items-center justify-center top-[90%] left-0">
+        <Paginate
+          projectsPerPage={projectsPerPage}
+          totalProjects={projects.length}
+          paginate={paginate}
+          previousPage={previousPage}
+          nextPage={nextPage}
+          currentPage={currentPage}
+        />
       </div>
       {/* approveModal */}
       {approveModel ? (
@@ -243,7 +280,7 @@ const Review = () => {
       ) : null}
 
       {/* rejectModal ends here */}
-    </>
+    </div>
   );
 };
 

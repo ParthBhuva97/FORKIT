@@ -1,67 +1,85 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 import ReactEcharts from "echarts-for-react";
+import axios from "axios";
 
 const AdminDash = () => {
+  const [projects, setProjects] = useState([]);
+  const [totalProjects, setTotalProjects] = useState(0);
+  const [approved, setApprovedProjects] = useState(0);
+  const [pending, setPendingProjects] = useState(0);
 
-   const barOption = {
-     legend: {},
-     tooltip: {},
-     dataset: {
-       source: [
-         ["Language", "JS", "Python", "C#"],
-         ["Approved", 43, 85, 93],
-         ["Pending", 83, 73, 55],
-         ["Rejected", 86, 65, 82],
-       ],
-     },
-     xAxis: { type: "category" },
-     yAxis: {},
-     // Declare several bar series, each will be mapped
-     // to a column of dataset.source by default.
-     series: [{ type: "bar" }, { type: "bar" }, { type: "bar" }],
-   };
+  useEffect(() => {
+    axios.get("http://localhost:3000/projects/getStats").then((response) => {
+      // console.log(response.data);
+      setProjects(response.data);
+      setApprovedProjects(response.data.approved.length);
+      setPendingProjects(response.data.pending.length);
+      setTotalProjects(
+        response.data.pending.length +
+          response.data.approved.length +
+          response.data.rejected.length
+      );
+    });
+  }, []);
 
-    const pieOption = {
-      tooltip: {
-        trigger: "item",
+  const barOption = {
+    xAxis: {
+      type: "category",
+      data: ["React", "PHP", "Python", "Java", "C"],
+    },
+    yAxis: {
+      type: "value",
+    },
+    series: [
+      {
+        data: [20, 10, 10, 15, 5],
+        type: "bar",
+        color: "#9fe080",
       },
-      legend: {
-        top: "5%",
-        left: "center",
-      },
-      series: [
-        {
-          name: "Projects Data",
-          type: "pie",
-          radius: ["30%", "70%"],
-          avoidLabelOverlap: false,
-          itemStyle: {
-            borderRadius: 10,
-            borderColor: "#fff",
-            borderWidth: 2,
-          },
-          label: {
-            show: false,
-            position: "center",
-          },
-          emphasis: {
-            label: {
-              show: true,
-              fontSize: 40,
-              fontWeight: "bold",
-            },
-          },
-          labelLine: {
-            show: false,
-          },
-          data: [
-            { value: 200, name: "Approved" },
-            { value: 50, name: "Rejected" },
-            { value: 100, name: "Pending" },
-          ],
+    ],
+  };
+
+  const pieOption = {
+    tooltip: {
+      trigger: "item",
+    },
+    legend: {
+      top: "5%",
+      left: "center",
+    },
+    series: [
+      {
+        name: "Projects Data",
+        type: "pie",
+        radius: ["30%", "70%"],
+        avoidLabelOverlap: false,
+        itemStyle: {
+          borderRadius: 10,
+          borderColor: "#fff",
+          borderWidth: 2,
         },
-      ],
-    };
+        label: {
+          show: false,
+          position: "center",
+        },
+        emphasis: {
+          label: {
+            show: true,
+            fontSize: 40,
+            fontWeight: "bold",
+          },
+        },
+        labelLine: {
+          show: false,
+        },
+        data: [
+          { value: approved, name: "Approved" },
+          { value: totalProjects - approved - pending, name: "Rejected" },
+          { value: pending, name: "Pending" },
+        ],
+      },
+    ],
+  };
   return (
     <div className="w-full flex flex-col justify-start items-start">
       <h1 className="font-bold drop-shadow-md text-indigo-500 text-xl">
@@ -73,21 +91,27 @@ const AdminDash = () => {
           <h1 className="font-bold drop-shadow-md text-indigo-500 text-lg">
             Total Projects
           </h1>
-          <h1 className="font-bold drop-shadow-md text-black text-3xl">350</h1>
+          <h1 className="font-bold drop-shadow-md text-black text-3xl">
+            {totalProjects}
+          </h1>
         </div>
         {/* Card 2 */}
         <div className="w-full flex flex-col gap-5 items-center justify-center rounded-lg shadow-md p-5 border border-black">
           <h1 className="font-bold drop-shadow-md text-indigo-500 text-lg">
             Approved Projects
           </h1>
-          <h1 className="font-bold drop-shadow-md text-black text-3xl">200</h1>
+          <h1 className="font-bold drop-shadow-md text-black text-3xl">
+            {approved}
+          </h1>
         </div>
         {/* Card 3 */}
         <div className="w-full flex flex-col gap-5 items-center justify-center rounded-lg shadow-md p-5 border border-black">
           <h1 className="font-bold drop-shadow-md text-indigo-500 text-lg">
             Pending Projects
           </h1>
-          <h1 className="font-bold drop-shadow-md text-black text-3xl">100</h1>
+          <h1 className="font-bold drop-shadow-md text-black text-3xl">
+            {pending}
+          </h1>
         </div>
         {/* Card ends Here */}
       </div>
@@ -105,6 +129,6 @@ const AdminDash = () => {
       {/* Charts Section End */}
     </div>
   );
-}
+};
 
-export default AdminDash
+export default AdminDash;
