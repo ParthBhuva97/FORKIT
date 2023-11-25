@@ -15,9 +15,9 @@ const AdminDash = () => {
       setApprovedProjects(response.data.approved.length);
       setPendingProjects(response.data.pending.length);
       setTotalProjects(
-        response.data.pending.length +
-          response.data.approved.length +
-          response.data.rejected.length
+        response.data.pending.length || 0 +
+          response.data.approved.length || 0 +
+          response.data.rejected.length || 0
       );
     });
   }, []);

@@ -5,6 +5,7 @@ import { BsUpload } from "react-icons/bs";
 import { GrStatusUnknown } from "react-icons/gr";
 import { BiLogOutCircle } from "react-icons/bi";
 import { MdOutlineIntegrationInstructions } from "react-icons/md";
+import "ldrs/mirage";
 
 import Navbar from "../Home/Navbar";
 import Uploads from "./Uploads";
@@ -18,6 +19,7 @@ const Dashboard = () => {
   const [userData,setUserData] = useState({});
   const accessToken = localStorage.getItem("accessToken");
   const [page, setPage] = useState("instructions");
+  const [totalProjects,setTotalProjects] = useState(0);
   const navigate = useNavigate();
 
   useEffect(()=>{
@@ -32,14 +34,16 @@ const Dashboard = () => {
       .then((response) => {
         console.log(response.data);
         localStorage.setItem("user", response.data.login);
-        setUserData(response.data);
         if (response.data.login === "Fork-IT") {
           localStorage.setItem("isAdmin", "true");
           navigate("/admin");
         }
-      });
+        setUserData(response.data);
+        axios.get(`http://localhost:3000/projects/getUserProjects?user=${response.data.login}`).then((response)=>{
+          setTotalProjects(response.data.length);
+        });
+      })
 
-    
   },[accessToken])
 
   useEffect(() => {
@@ -75,6 +79,8 @@ const Dashboard = () => {
     }
   }, [authCode]);
 
+
+
   function changeTab(index) {
     setPage(index);
   }
@@ -82,7 +88,7 @@ const Dashboard = () => {
     localStorage.removeItem('accessToken');
     navigate('/');
   }
-  return (
+  return Object.keys(userData).length !== 0 ? (
     <div className="relative h-screen">
       <div className="w-full h-[10vh] pb-24 bg-black">
         <Navbar />
@@ -129,7 +135,7 @@ const Dashboard = () => {
                     <h1 className="text-center">Uploads</h1>
                   </div>
                   <div
-                    className={`w-full flex px-5 py-2 items-center gap-5 font-bold cursor-pointer ${
+                    className={`w-full px-5 py-2 flex items-center gap-5 font-bold cursor-pointer ${
                       page === "status"
                         ? "bg-blue-400 text-white shadow-md"
                         : "hover:outline hover:outline-2 outline-blue-400"
@@ -140,6 +146,15 @@ const Dashboard = () => {
                   >
                     <GrStatusUnknown />
                     <h1 className="text-center">Status</h1>
+                    <h1
+                      className={`${
+                        page === "status"
+                          ? "bg-white text-black"
+                          : "bg-blue-400 text-white"
+                      } rounded-full px-3 py-2 text-[10px]  drop-shadow-md shadow-md`}
+                    >
+                      {totalProjects}
+                    </h1>
                   </div>
                 </div>
               </div>
@@ -162,13 +177,17 @@ const Dashboard = () => {
             ) : page === "status" ? (
               <Status user={userData.login} />
             ) : page === "instructions" ? (
-              <Instructions userData={userData}/>
+              <Instructions userData={userData} />
             ) : (
               ""
             )}
           </div>
         </div>
       </div>
+    </div>
+  ) : (
+    <div className="w-full h-screen flex items-center justify-center">
+      <l-mirage size="100" speed="1.5" color="black"></l-mirage>;
     </div>
   );
 };
