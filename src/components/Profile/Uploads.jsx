@@ -59,7 +59,7 @@ const Uploads = ({ repos }) => {
   }
   return (
     <>
-      <div className="w-full flex items-center justify-center flex-col gap-5">
+      <div className="w-full flex items-center justify-center flex-col gap-5 font-outfit">
         <div className="w-full grid grid-cols-2 gap-5">
           {/* <div className="ring-1 ring-offset-2 rounded-lg grid grid-cols-3">
             <div className="col-span-1">

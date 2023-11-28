@@ -3,6 +3,7 @@ import Navbar from "../Home/Navbar";
 import { FiFilter } from "react-icons/fi";
 import axios from "axios";
 import Projectcard from "./Projectcard";
+import Paginate from "../Admin/Paginate";
 
 const Marketplace = () => {
   const [projects, setProjects] = useState([]);
@@ -10,6 +11,9 @@ const Marketplace = () => {
   const searchRef = useRef();
   const domainRef = useRef();
   const langRef = useRef();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [projectsPerPage] = useState(6);
+
   useEffect(() => {
     axios
       .get("http://localhost:3000/projects/getProjects?status=approved")
@@ -100,6 +104,29 @@ const Marketplace = () => {
     
   }
 
+  const indexOfLastProject = currentPage * projectsPerPage;
+  const indexOfFirstProject = indexOfLastProject - projectsPerPage;
+  const currentProjects = filtered.slice(
+    indexOfFirstProject,
+    indexOfLastProject
+  );
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const previousPage = () => {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const nextPage = () => {
+    if (currentPage !== Math.ceil(projects.length / projectsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
     <div className="w-full bg-black">
       <Navbar />
@@ -153,13 +180,14 @@ const Marketplace = () => {
                   <option value="Python">Python</option>
                   <option value="PHP">PHP</option>
                 </select>
-                <div className="w-[10%] cursor-pointer rounded-r-3xl p-3 border border-black" onClick={
-                  () =>{
+                <div
+                  className="w-[10%] cursor-pointer rounded-r-3xl p-3 border border-black"
+                  onClick={() => {
                     domainRef.current.value = "";
                     langRef.current.value = "";
-                    setFiltered(projects)
-                  }
-                }>
+                    setFiltered(projects);
+                  }}
+                >
                   <FiFilter size={22} />
                 </div>
               </div>
@@ -170,12 +198,22 @@ const Marketplace = () => {
           </div>
           <div className="w-full flex items-start justify-start px-5 ">
             <div className="w-full grid grid-cols-3 gap-5 ">
-              {filtered.map((project, index) => {
+              {currentProjects.map((project, index) => {
                 return <Projectcard project={project} />;
               })}
             </div>
           </div>
         </div>
+      </div>
+      <div className="w-full flex items-center justify-center bg-white">
+        <Paginate
+          projectsPerPage={projectsPerPage}
+          totalProjects={projects.length}
+          paginate={paginate}
+          previousPage={previousPage}
+          nextPage={nextPage}
+          currentPage={currentPage}
+        />
       </div>
     </div>
   );

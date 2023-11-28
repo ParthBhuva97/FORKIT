@@ -13,7 +13,7 @@ const Status = ({user}) => {
     })
   },[])
   return (
-    <div className="flex items-start justify-start flex-col">
+    <div className="flex items-start justify-start flex-col font-outfit">
       <h1 className="text-indigo-500 font-bold">Status of your Projects</h1>
       <div className="w-full flex flex-col gap-2">
         {userProjects.map((project,index)=>{

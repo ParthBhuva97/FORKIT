@@ -77,6 +77,11 @@ const Instructions = ({ userData }) => {
           <h1 className="text-xl text-indigo-500 font-bold drop-shadow-md ">
             Instructions
           </h1>
+          <ul className="flex flex-col gap-3 font-outfit text-xl list-disc p-5">
+            <li>Please Complete your profile before uploading any projects to the platform.</li>
+            <li>Your Github Project should have a readme file in <span className="text-blue-500 cursor-pointer hover:underline decoration-blue-500">This Format.</span></li>
+            <li>Your projects will be carefully reviewed by our admins and your payout will be decided by admin.</li>
+          </ul>
         </div>
       </div>
       {showModal ? (

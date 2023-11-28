@@ -187,7 +187,7 @@ const Dashboard = () => {
     </div>
   ) : (
     <div className="w-full h-screen flex items-center justify-center">
-      <l-mirage size="100" speed="1.5" color="black"></l-mirage>;
+      <l-mirage size="100" speed="1.5" color="black"></l-mirage>
     </div>
   );
 };
