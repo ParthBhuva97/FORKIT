@@ -7,7 +7,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-const Projectcard = ({ project, buyProject }) => {
+const Projectcard = ({ project }) => {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [searchParams] = useSearchParams();

@@ -28,6 +28,8 @@ const Marketplace = () => {
           const descriptionElement = parsedHtml.querySelector("h3");
           const domainElement = parsedHtml.querySelector("h4");
           const imageElement = parsedHtml.querySelector("img");
+          var videoElement = parsedHtml.querySelector("video");
+          var sourceElement = videoElement.querySelector("source");
           return {
             ...project,
             title: titleElement.textContent,
@@ -35,6 +37,7 @@ const Marketplace = () => {
             description: descriptionElement.textContent,
             domain: domainElement.textContent,
             image: imageElement.src,
+            video: sourceElement.src,
           };
         });
         setProjects(data);
@@ -57,7 +60,7 @@ const Marketplace = () => {
   }
 
   function handleDomainChange() {
-    if(langRef.current.value === undefined) {
+    if (langRef.current.value === undefined) {
       setFiltered(
         projects.filter((project) => {
           return project.domain
@@ -65,20 +68,22 @@ const Marketplace = () => {
             .includes(domainRef.current.value.toLowerCase());
         })
       );
-    }
-    else{
+    } else {
       setFiltered(
         projects.filter((project) => {
-          return project.domain
-            .toLowerCase()
-            .includes(domainRef.current.value.toLowerCase()) && project.languages.includes(langRef.current.value);
+          return (
+            project.domain
+              .toLowerCase()
+              .includes(domainRef.current.value.toLowerCase()) &&
+            project.languages.includes(langRef.current.value)
+          );
         })
       );
     }
   }
 
   function handleLanguageChange() {
-    if(domainRef.current.value === undefined){
+    if (domainRef.current.value === undefined) {
       setFiltered(
         projects.filter((project) => {
           return project.languages
@@ -86,8 +91,7 @@ const Marketplace = () => {
             .includes(langRef.current.value.toLowerCase());
         })
       );
-    }
-    else{
+    } else {
       setFiltered(
         projects.filter((project) => {
           return (
@@ -101,7 +105,6 @@ const Marketplace = () => {
         })
       );
     }
-    
   }
 
   const indexOfLastProject = currentPage * projectsPerPage;
