@@ -26,6 +26,7 @@ const History = () => {
     const indexOfFirstProject = indexOfLastProject - projectsPerPage;
     const currentProjects = projects.slice(indexOfFirstProject, indexOfLastProject);
 
+
     const paginate = (pageNumber) => {
       setCurrentPage(pageNumber);
     };
@@ -59,7 +60,7 @@ const History = () => {
                   </h1>
                   <div className="flex items-start gap-2 justify-center text-sm text-slate-500">
                     <FaUserAlt />
-                    <h1>{project.user_id}</h1>
+                    <h1>{project.user_name}</h1>
                   </div>
                 </div>
                 <div className=" col-span-1 flex items-center justify-end">

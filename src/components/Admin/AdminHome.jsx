@@ -102,19 +102,6 @@ const AdminHome = () => {
             <FaUsers />
             <h1 className="text-center">Payouts</h1>
           </div>
-          <div
-            className={`w-full flex px-5 py-2 items-center shadow-md gap-5 font-semibold cursor-pointer ${
-              page === "billing"
-                ? "bg-blue-400 text-white shadow-md"
-                : "hover:outline hover:outline-2 outline-blue-400"
-            } rounded-lg`}
-            onClick={() => {
-              changeTab("billing");
-            }}
-          >
-            <FaMoneyCheck />
-            <h1 className="text-center">Billing Info</h1>
-          </div>
         </div>
 
         <div className="row-span-1 px-5 flex justify-start items-center">

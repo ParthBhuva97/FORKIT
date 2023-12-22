@@ -142,9 +142,8 @@ const Payouts = () => {
                         })
                         .then((response) => {
                           console.log(response.data);
-                        });
                           setPaymentModal(false);
-
+                            }    )
                     }}
                   >
                     Send Mail

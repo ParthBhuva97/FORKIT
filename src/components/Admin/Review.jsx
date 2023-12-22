@@ -87,6 +87,7 @@ const Review = () => {
                 <div className="flex flex-col items-start">
                   <h1 className="font-bold text-xl">
                     {project.repo_link.split("/")[5]}
+                    {console.log(project.repo_link.split("/")[5])}
                   </h1>
                   <div className="flex items-start gap-2 justify-center text-sm text-slate-500">
                     <FaUserAlt />
